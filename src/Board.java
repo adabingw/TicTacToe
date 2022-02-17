@@ -43,6 +43,7 @@ public class Board extends JPanel {
             		for (int j = 0; j < 3; j++) {
             			if(e.getSource() == buttons[i][j]){
                 			buttons[i][j].setText(p);
+                			buttons[i][j].setFont(new Font("Times New Roman", Font.PLAIN, 25));
                 			// customizing color :)
                 			if (buttons[i][j].getText().equals("x")) {
                 				buttons[i][j].setBackground(new Color(209, 216, 232));
