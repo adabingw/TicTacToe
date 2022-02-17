@@ -11,10 +11,12 @@ public class Board extends JPanel {
 	private static final long serialVersionUID = 9217694211427196982L;
 	JButton [][] buttons;
 	String p;
+	JLabel label;
 
-	public Board(int length, int height, String p) {
+	public Board(int length, int height, String p, JLabel label) {
         super();
 		this.p = p;
+		this.label = label;
         this.setLayout(new GridLayout(length, height));
         buttons = new JButton[length][height];
         
@@ -27,7 +29,7 @@ public class Board extends JPanel {
                 b.setBackground(Color.WHITE);
                 buttons[i][j] = b;
                 this.add(b);
-                System.out.println("Supposedly added?");
+                b.setFocusPainted(false);
                 }
         }
         
@@ -57,45 +59,15 @@ public class Board extends JPanel {
             	}
             	
             	// Detecting win/full after move
-                WinDetection win = new WinDetection(buttons);
+                WinDetection win = new WinDetection(buttons, p);
                 boolean cont = win.cont();
                 
                 // If we're allowed to continue, we swap the players
                 if (cont == true) {
                 	p = swap(p);
+                	label.setText("PLAYER " + p.toUpperCase());
                 } else if (cont == false) {
-                	// I wanted to customize the JOptionpane :)
-                	JLabel label = new JLabel("Game Over :(");
-            		label.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-            		label.setHorizontalAlignment(SwingConstants.CENTER);
-
-                    final JButton okay = new JButton("Ok");
-                    okay.setBackground(Color.WHITE);
-                    okay.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-                    okay.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            System.exit(0);
-                        }
-                    });
-                    
-                    Object[] message = {
-                    	label
-                    };
-                	
-                	int result = JOptionPane.showOptionDialog(null,
-		                            message,
-		                            " ",
-		                            JOptionPane.YES_NO_CANCEL_OPTION,
-		                            JOptionPane.PLAIN_MESSAGE,
-		                            null,
-		                            new Object[]{okay},
-		                            null);
-                	if (result == JOptionPane.YES_OPTION) {
-                		System.exit(0);
-                	} else {
-                		System.exit(0);
-                	}
+                	System.exit(0);
                 }
             }
         }

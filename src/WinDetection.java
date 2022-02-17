@@ -1,13 +1,23 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 // checking for wins
 
 public class WinDetection {
 	
 	JButton[][] b;
+	String p;
 	
-	public WinDetection(JButton[][] b) {
+	public WinDetection(JButton[][] b, String p) {
 		this.b = b;
+		this.p = p;
 	}
 	
 	public boolean cont() {
@@ -17,7 +27,44 @@ public class WinDetection {
 		boolean cols = checkColWins();
 		boolean diag = checkDiagWins();
 		if (isFull == true || rows == true || cols == true || diag == true) {
-			return false;
+			JLabel label = new JLabel("Game Over :(");
+    		label.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+    		label.setHorizontalAlignment(SwingConstants.CENTER);
+    		
+    		if (rows == true || cols == true || diag == true) {
+    			label.setText("Player " + p + " has won!");
+    		} else {
+    			label.setText("Board is full :(");
+    		}
+
+            final JButton okay = new JButton("Ok");
+            okay.setBackground(Color.WHITE);
+            okay.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+            okay.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.exit(0);
+                }
+            });
+            
+            Object[] message = {
+            	label
+            };
+        	
+        	int result = JOptionPane.showOptionDialog(null,
+                            message,
+                            " ",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            new Object[]{okay},
+                            null);
+        	if (result == JOptionPane.YES_OPTION) {
+        		System.exit(0);
+        	} else {
+        		System.exit(0);
+        	}
+        	return false;
 		} else {
 			return true;
 		}
